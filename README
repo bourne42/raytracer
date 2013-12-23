@@ -1,0 +1,29 @@
+Raytracer (class project)
+Built and ran with visual studio
+Example screen shots in screen shots directory
+
+The following is the class write up:
+
+Basic layout: 
+-trace_pixel is called as in the starter code. It constructs the viewing rays. It then calls getColor, which is the actually code. This computes intersection and calls itself recursively for reflections. 
+-I pass around a pointer to a single struct that intersection functions will write into. This is only allocated at the beginning of rendering a frame to not have to keep re-allocating. 
+
+Intersections: (mostly copied from book)
+-Created virtual function getIntersection in Geometry that would find the intersection of the ray and the object. It would then put important information (like location, colors, normals...) into the struct PixelInfo that is passed into the function. 
+-Created function triangleIntersection in Geometry to calculate the intersection with a triangle (used by both triangle.cpp and model.cpp). 
+-When checking mutliple object for intersections (all objects or a model) I passed the currently found t (from a previously found object or the max value) so it would only return objects that intersected before the previously found object. 
+-Precompute inverse transformation and normal transformation matrices at beginning and store in each geometry. 
+-Had problem with triangle intersections and for some reason it fixed by reversing the d component of the ray (multiplying by -1). I don't think the ray is wrong, I double checked that and the ray also worked for spheres. I also believe the code is directly out of the book. I don't know why this fixed it but I wasted enough time on it so I left the hack. 
+
+Refraction:
+I wasn't able to get to refraction till late in the project. I tried the full version and it didn't work at all. Because I was short on time I implemented a simpler version that only keep tracks of one refraction index. I didn't get this to work completely either but parts resemble what it's supposed to be. 
+
+Can #define FASTER to make the program only calculate 1/4 pixels and duplicate that color data to the rest so the picture is just lower resolution. Used this to test faster
+
+Edited Files: raytracer.cpp. raytracer.hpp, all files in /scene except material and mesh
+
+
+
+We were given everything in the application, math, and tinyxml folders. This code handled loading the scene, camera, moving in the scene, and matrix, vector, and quaternion math. We were also provided the raytracer/main.cpp. In the folders raytracer and scene we were given base code with mostly empty functions that we filled in ourselves. 
+
+Most notable are the getIntersections functions in all the files in scene, which we wrote completely by ourselves. These functions returned intersection data for vectors and the respective shape. In raytracer/raytracer.cpp the notable functions are getColor and trace_pixel which together calculate the color for each pixel and perform most of the actual work. These were both blank when given. 
